@@ -1,5 +1,5 @@
 @use '@carbon/react';
-
+@use '@carbon/react/scss/breakpoint' as *;
 @use '@/app/home/landing-page';
 @use '@/app/repos/repo-page';
 
@@ -17,7 +17,15 @@
 /// @link https://github.com/carbon-design-system/carbon/issues/3010
 .cds--content {
   margin-top: 3rem;
+  padding: 0;
   background: var(--cds-background);
+}
+.cds--content .cds--css-grid {
+  max-width: 100%;
+  @include breakpoint(md) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 :root {

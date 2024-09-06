@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView, TextInput, DatePicker, DatePickerInput } from '@carbon/react';
+import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView, TreeNode, TextInput, DatePicker, DatePickerInput } from '@carbon/react';
 import { useState } from 'react';
 import './newPage.scss';
 
@@ -20,16 +20,16 @@ export default function NewPage() {
             <TabPanel>
               <Grid>
                 <Column lg={8} md={4} sm={2}>
-                  <TreeView label="位置架構">
-                    <TreeView.Node id="tsmc" label="tsmc (台積電)">
-                      <TreeView.Node id="F12P1" label="F12P1">
-                        <TreeView.Node id="IE" label="IE" />
-                      </TreeView.Node>
-                      <TreeView.Node id="F12P2" label="F12P2">
-                        <TreeView.Node id="WE" label="WE" />
-                      </TreeView.Node>
-                      <TreeView.Node id="F12P34" label="F12P34" />
-                    </TreeView.Node>
+                  <TreeView label="位置架構" active="tsmc">
+                    <TreeNode id="tsmc" label="tsmc (台積電)">
+                      <TreeNode id="F12P1" label="F12P1">
+                        <TreeNode id="IE" label="IE" />
+                      </TreeNode>
+                      <TreeNode id="F12P2" label="F12P2">
+                        <TreeNode id="WE" label="WE" />
+                      </TreeNode>
+                      <TreeNode id="F12P34" label="F12P34" />
+                    </TreeNode>
                   </TreeView>
                 </Column>
                 <Column lg={8} md={4} sm={2}>

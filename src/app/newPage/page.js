@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Grid, Column } from 'carbon-components-react';
+import { Button, Grid, Column } from '@carbon/react';
 import './newPage.scss';
 
 export default function NewPage() {

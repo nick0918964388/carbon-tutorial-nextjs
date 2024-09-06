@@ -12,6 +12,8 @@ export default function NewPage() {
   const handleSelectNode = (nodeId, nodeDescription) => {
     setSelectedNode({ id: nodeId, description: nodeDescription });
   };
+
+  return (
     <Grid className="new-page">
       <Column lg={16} md={8} sm={4} className="landing-page__banner">
         <h1 className="new-page__heading">管理系統</h1>

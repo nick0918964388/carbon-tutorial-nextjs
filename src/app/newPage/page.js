@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView, TreeNode, TextInput, DatePicker, DatePickerInput } from '@carbon/react';
+import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView, TreeNode, TextInput, DatePicker, DatePickerInput, Dropdown } from '@carbon/react';
 import { useState } from 'react';
 import './newPage.scss';
 
@@ -9,6 +9,15 @@ import './newPage.scss';
 export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
   const [expandedNodes, setExpandedNodes] = useState([]);
+  const [parentNode, setParentNode] = useState('');
+  const [nodes, setNodes] = useState([
+    { id: 'tsmc', label: 'tsmc (台積電)' },
+    { id: 'F12P1', label: 'F12P1' },
+    { id: 'IE', label: 'IE' },
+    { id: 'F12P2', label: 'F12P2' },
+    { id: 'WE', label: 'WE' },
+    { id: 'F12P34', label: 'F12P34' },
+  ]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     setSelectedNode({ id: nodeId, description: nodeDescription });
@@ -20,7 +29,11 @@ export default function NewPage() {
     });
   };
 
-  return (
+  const handleModify = () => {
+    // Logic to update the TreeView with the new parent
+    // This is a placeholder for the actual implementation
+    console.log(`Node ${selectedNode.id} moved under ${parentNode}`);
+  };
     <Grid className="new-page">
       <Column lg={16} md={8} sm={4} className="landing-page__banner">
         <h1 className="new-page__heading">管理系統</h1>
@@ -77,7 +90,15 @@ export default function NewPage() {
                 </Column>
                 <Column lg={8} md={4} sm={2}>
                   <form>
-                    <TextInput
+                    <Dropdown
+                      id="location-parent"
+                      titleText="上層位置:"
+                      label="選擇上層位置"
+                      items={nodes.map(node => node.label)}
+                      selectedItem={parentNode}
+                      onChange={({ selectedItem }) => setParentNode(selectedItem)}
+                    />
+                    <Button onClick={handleModify}>修改</Button>
                       id="location-id"
                       labelText="ID:"
                       value={selectedNode.id}

@@ -14,6 +14,7 @@ import {
 } from '@carbon/react';
 import Image from 'next/image';
 
+
 export default function LandingPage() {
   return (
     <Grid className="landing-page" fullWidth>

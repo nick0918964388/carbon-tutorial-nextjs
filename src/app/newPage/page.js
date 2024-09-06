@@ -2,12 +2,10 @@
 
 import React from 'react';
 import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
-import TreeView from '@carbon/react/lib/components/TreeView';
+import TreeView from '@carbon/react';
 import { useState } from 'react';
 import './newPage.scss';
-import { hello } from '../hello';
 
-hello();
 
 export default function NewPage() {
   return (

@@ -5,6 +5,8 @@ import { Button, Grid, Column } from '@carbon/react';
 import './newPage.scss';
 import { hello } from '../hello';
 
+hello();
+
 export default function NewPage() {
   return (
     <Grid className="new-page">

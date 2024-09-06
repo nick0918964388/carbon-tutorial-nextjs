@@ -11,12 +11,12 @@ export default function NewPage() {
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
   const [nodes, setNodes] = useState([
-    { id: 'tsmc', label: 'tsmc (台積電)' },
-    { id: 'F12P1', label: 'F12P1' },
-    { id: 'IE', label: 'IE' },
-    { id: 'F12P2', label: 'F12P2' },
-    { id: 'WE', label: 'WE' },
-    { id: 'F12P34', label: 'F12P34' },
+    { id: 'tsmc', description: '台積電', label: 'tsmc (台積電)', parent: null },
+    { id: 'F12P1', description: 'F12P1', label: 'F12P1', parent: 'tsmc' },
+    { id: 'IE', description: 'IE', label: 'IE', parent: 'F12P1' },
+    { id: 'F12P2', description: 'F12P2', label: 'F12P2', parent: 'tsmc' },
+    { id: 'WE', description: 'WE', label: 'WE', parent: 'F12P2' },
+    { id: 'F12P34', description: 'F12P34', label: 'F12P34', parent: 'tsmc' },
   ]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {

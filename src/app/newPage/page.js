@@ -29,6 +29,20 @@ export default function NewPage() {
     });
   };
 
+  const getParentOptions = (nodeId) => {
+    switch (nodeId) {
+      case 'IE':
+      case 'WE':
+        return ['F12P1', 'F12P2', 'tsmc'];
+      case 'F12P1':
+      case 'F12P2':
+      case 'F12P34':
+        return ['tsmc'];
+      default:
+        return [];
+    }
+  };
+
   const handleModify = () => {
     // Logic to update the TreeView with the new parent
     // This is a placeholder for the actual implementation
@@ -95,7 +109,7 @@ export default function NewPage() {
                       id="location-parent"
                       titleText="上層位置:"
                       label="選擇上層位置"
-                      items={nodes.map(node => node.label)}
+                      items={getParentOptions(selectedNode.id)}
                       selectedItem={parentNode}
                       onChange={({ selectedItem }) => setParentNode(selectedItem)}
                     />
@@ -122,11 +136,6 @@ export default function NewPage() {
                         labelText="修改日期:"
                       />
                     </DatePicker>
-                    <TextInput
-                      id="location-parent"
-                      labelText="上層位置:"
-                    />
-                    <Button>修改</Button>
                   </form>
                 </Column>
               </Grid>

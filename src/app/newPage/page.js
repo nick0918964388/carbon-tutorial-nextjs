@@ -44,9 +44,22 @@ export default function NewPage() {
   };
 
   const handleModify = () => {
-    // Logic to update the TreeView with the new parent
-    // This is a placeholder for the actual implementation
-    console.log(`Node ${selectedNode.id} moved under ${parentNode}`);
+    if (selectedNode.id && parentNode) {
+      setNodes((prevNodes) => {
+        // Remove the node from its current position
+        const filteredNodes = prevNodes.filter(node => node.id !== selectedNode.id);
+        
+        // Find the parent node
+        const parentIndex = filteredNodes.findIndex(node => node.id === parentNode);
+        
+        // Insert the node under the new parent
+        if (parentIndex !== -1) {
+          filteredNodes.splice(parentIndex + 1, 0, { id: selectedNode.id, label: selectedNode.description });
+        }
+        
+        return filteredNodes;
+      });
+    }
   };
   return (
     <Grid className="new-page">

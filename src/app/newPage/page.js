@@ -21,7 +21,15 @@ export default function NewPage() {
               <Grid>
                 <Column lg={8} md={4} sm={2}>
                   <TreeView label="位置架構">
-                    {/* Add tree nodes here */}
+                    <TreeView.Node id="tsmc" label="tsmc (台積電)">
+                      <TreeView.Node id="F12P1" label="F12P1">
+                        <TreeView.Node id="IE" label="IE" />
+                      </TreeView.Node>
+                      <TreeView.Node id="F12P2" label="F12P2">
+                        <TreeView.Node id="WE" label="WE" />
+                      </TreeView.Node>
+                      <TreeView.Node id="F12P34" label="F12P34" />
+                    </TreeView.Node>
                   </TreeView>
                 </Column>
                 <Column lg={8} md={4} sm={2}>

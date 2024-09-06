@@ -20,7 +20,9 @@ export default function NewPage() {
   ]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {
+    const node = nodes.find(n => n.id === nodeId);
     setSelectedNode({ id: nodeId, description: nodeDescription });
+    setParentNode(node ? node.parent : '');
     setExpandedNodes((prevExpandedNodes) => {
       if (!prevExpandedNodes.includes(nodeId)) {
         return [...prevExpandedNodes, nodeId];

@@ -1,17 +1,6 @@
 `use client`;
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  Button,
-  Tabs,
-  Tab,
-  TabList,
-  TabPanels,
-  TabPanel,
-  Grid,
-  Column,
-} from '@carbon/react';
+import { Breadcrumb, BreadcrumbItem, Button, Tabs, Tab, TabList, TabPanels, TabPanel, Grid, Column } from '@carbon/react';
 import Image from 'next/image';
 
 

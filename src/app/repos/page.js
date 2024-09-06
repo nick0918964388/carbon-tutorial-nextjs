@@ -1,7 +1,7 @@
 'use client';
 
 import RepoTable from './RepoTable';
-import { Link , DataTableSkeleton , Grid, Column } from '@carbon/react';
+import { Link, DataTableSkeleton, Grid, Column } from '@carbon/react';
 import React, { useEffect , useState  } from 'react';
 import { Octokit } from '@octokit/core';
 import dotenv from 'dotenv';

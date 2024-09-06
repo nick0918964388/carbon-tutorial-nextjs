@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
-import TreeView from '@carbon/react';
+import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView } from '@carbon/react';
 import { useState } from 'react';
 import './newPage.scss';
 

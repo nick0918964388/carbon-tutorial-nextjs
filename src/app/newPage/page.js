@@ -46,6 +46,7 @@ export default function NewPage() {
                       value={selectedNode.id}
                       readOnly
                       value={selectedNode.description}
+                      readOnly
                     />
                     <TextInput
                       id="location-description"

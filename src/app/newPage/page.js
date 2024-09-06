@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView } from '@carbon/react';
+import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView, TextInput, DatePicker, DatePickerInput } from '@carbon/react';
 import { useState } from 'react';
 import './newPage.scss';
 
@@ -26,26 +26,30 @@ export default function NewPage() {
                 </Column>
                 <Column lg={8} md={4} sm={2}>
                   <form>
-                    <div>
-                      <label>ID:</label>
-                      <input type="text" value="123" readOnly />
-                    </div>
-                    <div>
-                      <label>Description:</label>
-                      <input type="text" />
-                    </div>
-                    <div>
-                      <label>修改人:</label>
-                      <input type="text" />
-                    </div>
-                    <div>
-                      <label>修改日期:</label>
-                      <input type="date" />
-                    </div>
-                    <div>
-                      <label>上層位置:</label>
-                      <input type="text" />
-                    </div>
+                    <TextInput
+                      id="location-id"
+                      labelText="ID:"
+                      value="123"
+                      readOnly
+                    />
+                    <TextInput
+                      id="location-description"
+                      labelText="Description:"
+                    />
+                    <TextInput
+                      id="location-modifier"
+                      labelText="修改人:"
+                    />
+                    <DatePicker dateFormat="m/d/Y" datePickerType="single">
+                      <DatePickerInput
+                        id="location-date"
+                        labelText="修改日期:"
+                      />
+                    </DatePicker>
+                    <TextInput
+                      id="location-parent"
+                      labelText="上層位置:"
+                    />
                     <Button>修改</Button>
                   </form>
                 </Column>
@@ -60,26 +64,30 @@ export default function NewPage() {
                 </Column>
                 <Column lg={8} md={4} sm={2}>
                   <form>
-                    <div>
-                      <label>ID:</label>
-                      <input type="text" value="456" readOnly />
-                    </div>
-                    <div>
-                      <label>Description:</label>
-                      <input type="text" />
-                    </div>
-                    <div>
-                      <label>修改人:</label>
-                      <input type="text" />
-                    </div>
-                    <div>
-                      <label>修改日期:</label>
-                      <input type="date" />
-                    </div>
-                    <div>
-                      <label>上層設備:</label>
-                      <input type="text" />
-                    </div>
+                    <TextInput
+                      id="equipment-id"
+                      labelText="ID:"
+                      value="456"
+                      readOnly
+                    />
+                    <TextInput
+                      id="equipment-description"
+                      labelText="Description:"
+                    />
+                    <TextInput
+                      id="equipment-modifier"
+                      labelText="修改人:"
+                    />
+                    <DatePicker dateFormat="m/d/Y" datePickerType="single">
+                      <DatePickerInput
+                        id="equipment-date"
+                        labelText="修改日期:"
+                      />
+                    </DatePicker>
+                    <TextInput
+                      id="equipment-parent"
+                      labelText="上層設備:"
+                    />
                     <Button>修改</Button>
                   </form>
                 </Column>

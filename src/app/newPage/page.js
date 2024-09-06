@@ -46,18 +46,22 @@ export default function NewPage() {
   const handleModify = () => {
     if (selectedNode.id && parentNode) {
       setNodes((prevNodes) => {
-        // Remove the node from its current position
-        const filteredNodes = prevNodes.filter(node => node.id !== selectedNode.id);
-        
-        // Find the parent node
-        const parentIndex = filteredNodes.findIndex(node => node.id === parentNode);
-        
-        // Insert the node under the new parent
-        if (parentIndex !== -1) {
-          filteredNodes.splice(parentIndex + 1, 0, { id: selectedNode.id, label: selectedNode.description });
-        }
-        
-        return filteredNodes;
+        // Update the parent of the selected node
+        const updatedNodes = prevNodes.map(node => 
+          node.id === selectedNode.id ? { ...node, parent: parentNode } : node
+        );
+
+        // Rebuild the tree structure based on updated parent relationships
+        const buildTree = (nodes, parentId = null) => {
+          return nodes
+            .filter(node => node.parent === parentId)
+            .map(node => ({
+              ...node,
+              children: buildTree(nodes, node.id)
+            }));
+        };
+
+        return buildTree(updatedNodes);
       });
     }
   };

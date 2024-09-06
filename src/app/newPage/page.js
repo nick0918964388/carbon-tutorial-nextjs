@@ -8,9 +8,16 @@ import './newPage.scss';
 
 export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
+  const [expandedNodes, setExpandedNodes] = useState([]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     setSelectedNode({ id: nodeId, description: nodeDescription });
+    setExpandedNodes((prevExpandedNodes) => {
+      if (!prevExpandedNodes.includes(nodeId)) {
+        return [...prevExpandedNodes, nodeId];
+      }
+      return prevExpandedNodes;
+    });
   };
 
   return (
@@ -27,14 +34,44 @@ export default function NewPage() {
               <Grid>
                 <Column lg={8} md={4} sm={2}>
                   <TreeView label="位置架構" active="tsmc">
-                    <TreeNode id="tsmc" label="tsmc (台積電)" onClick={() => handleSelectNode('tsmc', '台積電')}>
-                      <TreeNode id="F12P1" label="F12P1" onClick={() => handleSelectNode('F12P1', 'F12P1')}>
-                        <TreeNode id="IE" label="IE" onClick={() => handleSelectNode('IE', 'IE')} />
+                    <TreeNode
+                      id="tsmc"
+                      label="tsmc (台積電)"
+                      onClick={() => handleSelectNode('tsmc', '台積電')}
+                      isExpanded={expandedNodes.includes('tsmc')}
+                    >
+                      <TreeNode
+                        id="F12P1"
+                        label="F12P1"
+                        onClick={() => handleSelectNode('F12P1', 'F12P1')}
+                        isExpanded={expandedNodes.includes('F12P1')}
+                      >
+                        <TreeNode
+                          id="IE"
+                          label="IE"
+                          onClick={() => handleSelectNode('IE', 'IE')}
+                          isExpanded={expandedNodes.includes('IE')}
+                        />
                       </TreeNode>
-                      <TreeNode id="F12P2" label="F12P2" onClick={() => handleSelectNode('F12P2', 'F12P2')}>
-                        <TreeNode id="WE" label="WE" onClick={() => handleSelectNode('WE', 'WE')} />
+                      <TreeNode
+                        id="F12P2"
+                        label="F12P2"
+                        onClick={() => handleSelectNode('F12P2', 'F12P2')}
+                        isExpanded={expandedNodes.includes('F12P2')}
+                      >
+                        <TreeNode
+                          id="WE"
+                          label="WE"
+                          onClick={() => handleSelectNode('WE', 'WE')}
+                          isExpanded={expandedNodes.includes('WE')}
+                        />
                       </TreeNode>
-                      <TreeNode id="F12P34" label="F12P34" onClick={() => handleSelectNode('F12P34', 'F12P34')} />
+                      <TreeNode
+                        id="F12P34"
+                        label="F12P34"
+                        onClick={() => handleSelectNode('F12P34', 'F12P34')}
+                        isExpanded={expandedNodes.includes('F12P34')}
+                      />
                     </TreeNode>
                   </TreeView>
                 </Column>

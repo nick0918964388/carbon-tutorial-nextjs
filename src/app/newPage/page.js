@@ -9,7 +9,7 @@ import './newPage.scss';
 export default function NewPage() {
   return (
     <Grid className="new-page">
-      <Column lg={16} md={8} sm={4} className="new-page__content">
+      <Column lg={16} md={8} sm={4} className="landing-page__banner">
         <h1 className="new-page__heading">管理系統</h1>
         <Tabs>
           <TabList aria-label="管理選項">

@@ -63,6 +63,10 @@ export default function NewPage() {
 
         return buildTree(updatedNodes);
       });
+
+      // Reset the selected node and parent node after modification
+      setSelectedNode({ id: '', description: '' });
+      setParentNode('');
     }
   };
   return (

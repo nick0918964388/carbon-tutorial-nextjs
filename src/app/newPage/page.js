@@ -7,7 +7,11 @@ import './newPage.scss';
 
 
 export default function NewPage() {
-  return (
+  const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
+
+  const handleSelectNode = (nodeId, nodeDescription) => {
+    setSelectedNode({ id: nodeId, description: nodeDescription });
+  };
     <Grid className="new-page">
       <Column lg={16} md={8} sm={4} className="landing-page__banner">
         <h1 className="new-page__heading">管理系統</h1>
@@ -21,14 +25,14 @@ export default function NewPage() {
               <Grid>
                 <Column lg={8} md={4} sm={2}>
                   <TreeView label="位置架構" active="tsmc">
-                    <TreeNode id="tsmc" label="tsmc (台積電)">
-                      <TreeNode id="F12P1" label="F12P1">
-                        <TreeNode id="IE" label="IE" />
+                    <TreeNode id="tsmc" label="tsmc (台積電)" onClick={() => handleSelectNode('tsmc', '台積電')}>
+                      <TreeNode id="F12P1" label="F12P1" onClick={() => handleSelectNode('F12P1', 'F12P1')}>
+                        <TreeNode id="IE" label="IE" onClick={() => handleSelectNode('IE', 'IE')} />
                       </TreeNode>
-                      <TreeNode id="F12P2" label="F12P2">
-                        <TreeNode id="WE" label="WE" />
+                      <TreeNode id="F12P2" label="F12P2" onClick={() => handleSelectNode('F12P2', 'F12P2')}>
+                        <TreeNode id="WE" label="WE" onClick={() => handleSelectNode('WE', 'WE')} />
                       </TreeNode>
-                      <TreeNode id="F12P34" label="F12P34" />
+                      <TreeNode id="F12P34" label="F12P34" onClick={() => handleSelectNode('F12P34', 'F12P34')} />
                     </TreeNode>
                   </TreeView>
                 </Column>
@@ -37,8 +41,9 @@ export default function NewPage() {
                     <TextInput
                       id="location-id"
                       labelText="ID:"
-                      value="123"
+                      value={selectedNode.id}
                       readOnly
+                      value={selectedNode.description}
                     />
                     <TextInput
                       id="location-description"

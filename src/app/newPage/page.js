@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button, Grid, Column } from '@carbon/react';
 import './newPage.scss';
+import { hello } from '../hello';
 
 export default function NewPage() {
   return (

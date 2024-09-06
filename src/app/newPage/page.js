@@ -34,6 +34,7 @@ export default function NewPage() {
     // This is a placeholder for the actual implementation
     console.log(`Node ${selectedNode.id} moved under ${parentNode}`);
   };
+  return (
     <Grid className="new-page">
       <Column lg={16} md={8} sm={4} className="landing-page__banner">
         <h1 className="new-page__heading">管理系統</h1>
@@ -99,16 +100,17 @@ export default function NewPage() {
                       onChange={({ selectedItem }) => setParentNode(selectedItem)}
                     />
                     <Button onClick={handleModify}>修改</Button>
+                    <TextInput
                       id="location-id"
                       labelText="ID:"
                       value={selectedNode.id}
-                      readOnly
-                      value={selectedNode.description}
                       readOnly
                     />
                     <TextInput
                       id="location-description"
                       labelText="Description:"
+                      value={selectedNode.description}
+                      readOnly
                     />
                     <TextInput
                       id="location-modifier"

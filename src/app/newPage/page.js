@@ -80,7 +80,15 @@ export default function NewPage() {
       setNewNode({ id: '', description: '', parent: '' });
     }
   };
-  const renderTreeNodes = (nodes, parentId = null) => {
+  const handleAddNode = () => {
+    if (newNode.id && newNode.description && newNode.parent) {
+      setNodes((prevNodes) => [
+        ...prevNodes,
+        { ...newNode, label: `${newNode.id} (${newNode.description})` }
+      ]);
+      setNewNode({ id: '', description: '', parent: '' });
+    }
+  };
     return nodes
       .filter(node => node.parent === parentId)
       .map(node => (
@@ -117,6 +125,26 @@ export default function NewPage() {
                 <Column lg={8} md={4} sm={2}>
                   <form>
                     <TextInput
+                      id="new-node-id"
+                      labelText="新節點 ID:"
+                      value={newNode.id}
+                      onChange={(e) => setNewNode({ ...newNode, id: e.target.value })}
+                    />
+                    <TextInput
+                      id="new-node-description"
+                      labelText="新節點描述:"
+                      value={newNode.description}
+                      onChange={(e) => setNewNode({ ...newNode, description: e.target.value })}
+                    />
+                    <Dropdown
+                      id="new-node-parent"
+                      titleText="上層位置:"
+                      label="選擇上層位置"
+                      items={nodes.map(node => node.id)}
+                      selectedItem={newNode.parent}
+                      onChange={({ selectedItem }) => setNewNode({ ...newNode, parent: selectedItem })}
+                    />
+                    <Button onClick={handleAddNode}>新增</Button>
                       id="location-id"
                       labelText="ID:"
                       value={selectedNode.id}

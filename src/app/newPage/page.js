@@ -9,6 +9,7 @@ export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
+  const [newNode, setNewNode] = useState({ id: '', description: '', parent: '' });
   const [nodes, setNodes] = useState([
     { id: 'tsmc', description: '台積電', label: 'tsmc (台積電)', parent: null },
     { id: 'F12P1', description: 'F12P1', label: 'F12P1', parent: 'tsmc' },
@@ -71,7 +72,15 @@ export default function NewPage() {
     }
   };
 
-  const renderTreeNodes = (nodes, parentId = null) => {
+  const handleAddNode = () => {
+    if (newNode.id && newNode.description && newNode.parent) {
+      setNodes((prevNodes) => [
+        ...prevNodes,
+        { ...newNode, label: `${newNode.id} (${newNode.description})` }
+      ]);
+      setNewNode({ id: '', description: '', parent: '' });
+    }
+  };
     return nodes
       .filter(node => node.parent === parentId)
       .map(node => (
@@ -137,6 +146,27 @@ export default function NewPage() {
                       onChange={({ selectedItem }) => setParentNode(selectedItem)}
                     />
                     <Button onClick={handleModify}>修改</Button>
+                    <TextInput
+                      id="new-node-id"
+                      labelText="新節點 ID:"
+                      value={newNode.id}
+                      onChange={(e) => setNewNode({ ...newNode, id: e.target.value })}
+                    />
+                    <TextInput
+                      id="new-node-description"
+                      labelText="新節點描述:"
+                      value={newNode.description}
+                      onChange={(e) => setNewNode({ ...newNode, description: e.target.value })}
+                    />
+                    <Dropdown
+                      id="new-node-parent"
+                      titleText="上層位置:"
+                      label="選擇上層位置"
+                      items={nodes.map(node => node.id)}
+                      selectedItem={newNode.parent}
+                      onChange={({ selectedItem }) => setNewNode({ ...newNode, parent: selectedItem })}
+                    />
+                    <Button onClick={handleAddNode}>新增</Button>
                   </form>
                 </Column>
               </Grid>

@@ -32,6 +32,16 @@ export default function NewPage() {
       }
       return prevExpandedNodes;
     });
+  };
+    const node = nodes.find(n => n.id === nodeId);
+    setSelectedNode({ id: nodeId, description: nodeDescription });
+    setParentNode(node ? node.parent : '');
+    setExpandedNodes((prevExpandedNodes) => {
+      if (!prevExpandedNodes.includes(nodeId)) {
+        return [...prevExpandedNodes, nodeId];
+      }
+      return prevExpandedNodes;
+    });
 
   const getParentOptions = (nodeId) => {
     switch (nodeId) {
@@ -71,15 +81,6 @@ export default function NewPage() {
     }
   };
 
-  const handleAddNode = () => {
-    if (newNode.id && newNode.description && newNode.parent) {
-      setNodes((prevNodes) => [
-        ...prevNodes,
-        { ...newNode, label: `${newNode.id} (${newNode.description})` }
-      ]);
-      setNewNode({ id: '', description: '', parent: '' });
-    }
-  };
   const handleAddNode = () => {
     if (newNode.id && newNode.description && newNode.parent) {
       setNodes((prevNodes) => [
@@ -145,6 +146,7 @@ export default function NewPage() {
                       onChange={({ selectedItem }) => setNewNode({ ...newNode, parent: selectedItem })}
                     />
                     <Button onClick={handleAddNode}>新增</Button>
+                    <TextInput
                       id="location-id"
                       labelText="ID:"
                       value={selectedNode.id}

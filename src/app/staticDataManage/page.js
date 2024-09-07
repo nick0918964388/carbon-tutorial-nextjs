@@ -445,12 +445,6 @@ export default function NewPage() {
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
-            <TextInput
-              id="modal-new-location-node-search"
-              labelText="搜尋位置:"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
             <Dropdown
               id="modal-new-location-node-parent"
               titleText="上層位置:"

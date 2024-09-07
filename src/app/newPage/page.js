@@ -32,7 +32,6 @@ export default function NewPage() {
       }
       return prevExpandedNodes;
     });
-  };
 
   const getParentOptions = (nodeId) => {
     switch (nodeId) {

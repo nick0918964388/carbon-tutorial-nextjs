@@ -64,6 +64,14 @@ export default function NewPage() {
         return buildTree(updatedNodes);
       });
 
+      // Expand the tree to show the new parent and the modified node
+      setExpandedNodes((prevExpandedNodes) => {
+        const newExpandedNodes = new Set(prevExpandedNodes);
+        newExpandedNodes.add(parentNode);
+        newExpandedNodes.add(selectedNode.id);
+        return Array.from(newExpandedNodes);
+      });
+
       setSelectedNode({ id: '', description: '' });
       setParentNode('');
     }

@@ -158,16 +158,18 @@ export default function NewPage() {
     setAllExpanded(!allExpanded);
   };
 
-  const handleSelectEquipmentNode = (nodeId, nodeDescription) => {
+  const handleSelectEquipmentNode = (nodeId) => {
     const node = equipmentNodes.find((n) => n.id === nodeId);
-    setSelectedEquipmentNode({ id: nodeId, description: nodeDescription });
-    setParentEquipmentNode(node ? node.parent : '');
-    setExpandedEquipmentNodes((prevExpandedNodes) => {
-      if (!prevExpandedNodes.includes(nodeId)) {
-        return [...prevExpandedNodes, nodeId];
-      }
-      return prevExpandedNodes;
-    });
+    if (node) {
+      setSelectedEquipmentNode({ id: node.id, description: node.description });
+      setParentEquipmentNode(node.parent);
+      setExpandedEquipmentNodes((prevExpandedNodes) => {
+        if (!prevExpandedNodes.includes(nodeId)) {
+          return [...prevExpandedNodes, nodeId];
+        }
+        return prevExpandedNodes;
+      });
+    }
   };
 
   const handleModifyEquipment = () => {
@@ -377,7 +379,14 @@ export default function NewPage() {
           id="modal-new-equipment-node-id"
           labelText="新設備 ID:"
           value={newEquipmentNode.id}
-          onChange={(e) => setNewEquipmentNode({ ...newEquipmentNode, id: e.target.value })}
+          onChange={(e) => {
+            const newId = e.target.value;
+            setNewEquipmentNode({ 
+              ...newEquipmentNode, 
+              id: newId, 
+              description: `Description for ${newId}` 
+            });
+          }}
         />
         <TextInput
           id="modal-new-equipment-node-description"

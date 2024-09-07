@@ -162,7 +162,6 @@ export default function NewPage() {
     const node = equipmentNodes.find((n) => n.id === nodeId);
     if (node) {
       setSelectedEquipmentNode({ id: node.id, description: node.description });
-      setSelectedEquipmentNode({ id: node.id, description: node.description });
       setParentEquipmentNode(node.parent);
       setExpandedEquipmentNodes((prevExpandedNodes) => {
         if (!prevExpandedNodes.includes(nodeId)) {

@@ -81,6 +81,7 @@ export default function NewPage() {
       setNewNode({ id: '', description: '', parent: '' });
     }
   };
+  const renderTreeNodes = (nodes, parentId = null) => {
     return nodes
       .filter(node => node.parent === parentId)
       .map(node => (
@@ -94,6 +95,7 @@ export default function NewPage() {
           {renderTreeNodes(nodes, node.id)}
         </TreeNode>
       ));
+  };
   };
 
   return (

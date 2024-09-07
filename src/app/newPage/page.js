@@ -32,7 +32,6 @@ export default function NewPage() {
       }
       return prevExpandedNodes;
     });
-  };
     const node = nodes.find(n => n.id === nodeId);
     setSelectedNode({ id: nodeId, description: nodeDescription });
     setParentNode(node ? node.parent : '');

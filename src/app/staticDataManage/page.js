@@ -68,6 +68,7 @@ export default function NewPage() {
       parent: 'IE',
     },
   ]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedEquipmentNode, setSelectedEquipmentNode] = useState({
     id: '',
     description: '',
@@ -438,11 +439,21 @@ export default function NewPage() {
                 })
               }
             />
+            <TextInput
+              id="modal-new-location-node-search"
+              labelText="搜尋位置:"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
             <Dropdown
               id="modal-new-location-node-parent"
               titleText="上層位置:"
               label="選擇上層位置"
-              items={nodes.map((node) => node.id)}
+              items={nodes
+                .filter((node) =>
+                  node.id.toLowerCase().includes(searchKeyword.toLowerCase())
+                )
+                .map((node) => node.id)}
               selectedItem={newNode.parent}
               onChange={({ selectedItem }) =>
                 setNewNode({ ...newNode, parent: selectedItem })

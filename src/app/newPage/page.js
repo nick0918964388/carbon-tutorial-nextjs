@@ -9,15 +9,15 @@ export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
-  
-  const nodes = [
+  const [nodes, setNodes] = useState([
     { id: 'tsmc', description: '台積電', label: 'tsmc (台積電)', parent: null },
     { id: 'F12P1', description: 'F12P1', label: 'F12P1', parent: 'tsmc' },
     { id: 'IE', description: 'IE', label: 'IE', parent: 'F12P1' },
     { id: 'F12P2', description: 'F12P2', label: 'F12P2', parent: 'tsmc' },
     { id: 'WE', description: 'WE', label: 'WE', parent: 'F12P2' },
     { id: 'F12P34', description: 'F12P34', label: 'F12P34', parent: 'tsmc' },
-  ];
+  ]);
+  
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     const node = nodes.find(n => n.id === nodeId);
@@ -62,14 +62,6 @@ export default function NewPage() {
         };
 
         return buildTree(updatedNodes);
-      });
-
-      // Expand the tree to show the new parent and the modified node
-      setExpandedNodes((prevExpandedNodes) => {
-        const newExpandedNodes = new Set(prevExpandedNodes);
-        newExpandedNodes.add(parentNode);
-        newExpandedNodes.add(selectedNode.id);
-        return Array.from(newExpandedNodes);
       });
 
       setSelectedNode({ id: '', description: '' });

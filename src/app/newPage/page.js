@@ -299,7 +299,7 @@ export default function NewPage() {
                     />
                     <div className="button-group">
                       <Button onClick={handleModify}>修改</Button>
-                      <Button onClick={() => setIsModalOpen(true)}>新增設備</Button>
+                      <Button onClick={() => setIsModalOpen(true)}>新增</Button>
                     </div>
                   </form>
                 </Column>

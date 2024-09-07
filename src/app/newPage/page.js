@@ -297,7 +297,7 @@ export default function NewPage() {
                     />
                     <div className="button-group">
                       <Button onClick={handleModify}>修改</Button>
-                      <Button onClick={() => setIsModalOpen(true)}>新增</Button>
+                      <Button onClick={() => setIsModalOpen(true)}>新增設備</Button>
                     </div>
                   </form>
                 </Column>
@@ -371,30 +371,30 @@ export default function NewPage() {
         primaryButtonText="確認"
         secondaryButtonText="取消"
         onRequestClose={() => setIsModalOpen(false)}
-        onRequestSubmit={handleAddNode}
+        onRequestSubmit={handleAddEquipmentNode}
       >
         <TextInput
-          id="modal-new-node-id"
-          labelText="新節點 ID:"
-          value={newNode.id}
-          onChange={(e) => setNewNode({ ...newNode, id: e.target.value })}
+          id="modal-new-equipment-node-id"
+          labelText="新設備 ID:"
+          value={newEquipmentNode.id}
+          onChange={(e) => setNewEquipmentNode({ ...newEquipmentNode, id: e.target.value })}
         />
         <TextInput
-          id="modal-new-node-description"
-          labelText="新節點描述:"
-          value={newNode.description}
+          id="modal-new-equipment-node-description"
+          labelText="新設備描述:"
+          value={newEquipmentNode.description}
           onChange={(e) =>
-            setNewNode({ ...newNode, description: e.target.value })
+            setNewEquipmentNode({ ...newEquipmentNode, description: e.target.value })
           }
         />
         <Dropdown
-          id="modal-new-node-parent"
-          titleText="上層位置:"
-          label="選擇上層位置"
-          items={nodes.map((node) => node.id)}
-          selectedItem={newNode.parent}
+          id="modal-new-equipment-node-parent"
+          titleText="上層設備:"
+          label="選擇上層設備"
+          items={equipmentNodes.map((node) => node.id)}
+          selectedItem={newEquipmentNode.parent}
           onChange={({ selectedItem }) =>
-            setNewNode({ ...newNode, parent: selectedItem })
+            setNewEquipmentNode({ ...newEquipmentNode, parent: selectedItem })
           }
         />
       </Modal>

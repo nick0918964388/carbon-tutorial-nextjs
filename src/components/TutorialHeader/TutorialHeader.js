@@ -51,8 +51,8 @@ const TutorialHeader = () => (
           <Link href="/repos" passHref legacyBehavior>
             <HeaderMenuItem>Repositories</HeaderMenuItem>
           </Link>
-          <Link href="/newPage" passHref legacyBehavior>
-            <HeaderMenuItem>New Page</HeaderMenuItem>
+          <Link href="/staticDataManage" passHref legacyBehavior>
+            <HeaderMenuItem>靜態資料管理</HeaderMenuItem>
           </Link>
         </HeaderNavigation>
         <SideNav

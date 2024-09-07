@@ -68,7 +68,10 @@ export default function NewPage() {
       parent: 'IE',
     },
   ]);
-  const [selectedEquipmentNode, setSelectedEquipmentNode] = useState({ id: '', description: '' });
+  const [selectedEquipmentNode, setSelectedEquipmentNode] = useState({
+    id: '',
+    description: '',
+  });
   const [expandedEquipmentNodes, setExpandedEquipmentNodes] = useState([]);
   const [parentEquipmentNode, setParentEquipmentNode] = useState('');
   const [newEquipmentNode, setNewEquipmentNode] = useState({
@@ -87,6 +90,8 @@ export default function NewPage() {
   useEffect(() => {
     setExpandedNodes(nodes.map((node) => node.id));
     setExpandedEquipmentNodes(equipmentNodes.map((node) => node.id));
+    console.log(expandedEquipmentNodes);
+    console.log(expandedNodes);
   }, [nodes, equipmentNodes]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {
@@ -160,6 +165,7 @@ export default function NewPage() {
 
   const handleSelectEquipmentNode = (nodeId) => {
     const node = equipmentNodes.find((n) => n.id === nodeId);
+    console.log(node);
     if (node) {
       setSelectedEquipmentNode({ id: node.id, description: node.description });
       setParentEquipmentNode(node.parent);
@@ -176,7 +182,9 @@ export default function NewPage() {
     if (selectedEquipmentNode.id && parentEquipmentNode) {
       setEquipmentNodes((prevNodes) => {
         const updatedNodes = prevNodes.map((node) =>
-          node.id === selectedEquipmentNode.id ? { ...node, parent: parentEquipmentNode } : node
+          node.id === selectedEquipmentNode.id
+            ? { ...node, parent: parentEquipmentNode }
+            : node
         );
 
         return updatedNodes;
@@ -195,10 +203,17 @@ export default function NewPage() {
   };
 
   const handleAddEquipmentNode = () => {
-    if (newEquipmentNode.id && newEquipmentNode.description && newEquipmentNode.parent) {
+    if (
+      newEquipmentNode.id &&
+      newEquipmentNode.description &&
+      newEquipmentNode.parent
+    ) {
       setEquipmentNodes((prevNodes) => [
         ...prevNodes,
-        { ...newEquipmentNode, label: `${newEquipmentNode.id} (${newEquipmentNode.description})` },
+        {
+          ...newEquipmentNode,
+          label: `${newEquipmentNode.id} (${newEquipmentNode.description})`,
+        },
       ]);
       setNewEquipmentNode({ id: '', description: '', parent: '' });
       setIsModalOpen(false);
@@ -214,7 +229,12 @@ export default function NewPage() {
     setAllEquipmentExpanded(!allEquipmentExpanded);
   };
 
-  const renderTreeNodes = (nodes, parentId = null, level = 0, isEquipment = false) => {
+  const renderTreeNodes = (
+    nodes,
+    parentId = null,
+    level = 0,
+    isEquipment = false
+  ) => {
     return nodes
       .filter((node) => node.parent === parentId)
       .map((node) => {
@@ -230,14 +250,19 @@ export default function NewPage() {
             }
             onClick={() => {
               if (isEquipment) {
+                console.log(node.id);
                 handleSelectEquipmentNode(node.id);
               } else {
                 handleSelectNode(node.id, node.description);
               }
             }}
-            isExpanded={isEquipment ? expandedEquipmentNodes.includes(node.id) : expandedNodes.includes(node.id)}
+            isExpanded={
+              isEquipment
+                ? expandedEquipmentNodes.includes(node.id)
+                : expandedNodes.includes(node.id)
+            }
           >
-            {renderTreeNodes(nodes, node.id, level + 1)}
+            {renderTreeNodes(nodes, node.id, level + 1, isEquipment)}
           </TreeNode>
         );
       });
@@ -316,10 +341,14 @@ export default function NewPage() {
                 <Column lg={8} md={4} sm={2}>
                   <Column lg={2} md={1} sm={1}>
                     <Button
-                      renderIcon={allEquipmentExpanded ? ChevronUp : ChevronDown}
+                      renderIcon={
+                        allEquipmentExpanded ? ChevronUp : ChevronDown
+                      }
                       onClick={toggleExpandAllEquipment}
                       hasIconOnly
-                      iconDescription={allEquipmentExpanded ? '全部收起' : '全部展開'}
+                      iconDescription={
+                        allEquipmentExpanded ? '全部收起' : '全部展開'
+                      }
                       kind="ghost"
                       size="small"
                     />
@@ -387,10 +416,10 @@ export default function NewPage() {
           value={newEquipmentNode.id}
           onChange={(e) => {
             const newId = e.target.value;
-            setNewEquipmentNode({ 
-              ...newEquipmentNode, 
-              id: newId, 
-              description: `Description for ${newId}` 
+            setNewEquipmentNode({
+              ...newEquipmentNode,
+              id: newId,
+              description: `Description for ${newId}`,
             });
           }}
         />
@@ -399,7 +428,10 @@ export default function NewPage() {
           labelText="新設備描述:"
           value={newEquipmentNode.description}
           onChange={(e) =>
-            setNewEquipmentNode({ ...newEquipmentNode, description: e.target.value })
+            setNewEquipmentNode({
+              ...newEquipmentNode,
+              description: e.target.value,
+            })
           }
         />
         <Dropdown

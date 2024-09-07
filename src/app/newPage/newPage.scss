@@ -13,7 +13,7 @@ html {
     margin-top: 20px;
   }
 
-  .landing-page__heading {
+  .new-page__heading {
     @include type-style('productive-heading-05');
   }
 
@@ -45,7 +45,7 @@ html {
     }
   }
 
-  .landing-page__banner {
+  .new-page__banner {
     padding-top: $spacing-05;
     padding-bottom: $spacing-07 * 4;
     padding-left: $spacing-06;

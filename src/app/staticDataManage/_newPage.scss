@@ -13,6 +13,10 @@ html {
     margin-top: 20px;
   }
 
+  .bx--dropdown {
+    z-index: 1000; // Ensure dropdown appears above other elements
+  }
+
   .new-page__heading {
     @include type-style('productive-heading-05');
     padding-bottom: $spacing-06;

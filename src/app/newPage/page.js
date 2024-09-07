@@ -68,12 +68,26 @@ export default function NewPage() {
       parent: 'IE',
     },
   ]);
+  const [selectedEquipmentNode, setSelectedEquipmentNode] = useState({ id: '', description: '' });
+  const [expandedEquipmentNodes, setExpandedEquipmentNodes] = useState([]);
+  const [parentEquipmentNode, setParentEquipmentNode] = useState('');
+  const [newEquipmentNode, setNewEquipmentNode] = useState({
+    id: '',
+    description: '',
+    parent: '',
+  });
+  const [equipmentNodes, setEquipmentNodes] = useState([
+    { id: 'eq1', description: '設備1', label: 'eq1 (設備1)', parent: null },
+    { id: 'eq2', description: '設備2', label: 'eq2 (設備2)', parent: 'eq1' },
+  ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [allEquipmentExpanded, setAllEquipmentExpanded] = useState(true);
   const [allExpanded, setAllExpanded] = useState(true);
 
   useEffect(() => {
     setExpandedNodes(nodes.map((node) => node.id));
-  }, [nodes]);
+    setExpandedEquipmentNodes(equipmentNodes.map((node) => node.id));
+  }, [nodes, equipmentNodes]);
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     const node = nodes.find((n) => n.id === nodeId);
@@ -142,6 +156,60 @@ export default function NewPage() {
       setExpandedNodes(nodes.map((node) => node.id));
     }
     setAllExpanded(!allExpanded);
+  };
+
+  const handleSelectEquipmentNode = (nodeId, nodeDescription) => {
+    const node = equipmentNodes.find((n) => n.id === nodeId);
+    setSelectedEquipmentNode({ id: nodeId, description: nodeDescription });
+    setParentEquipmentNode(node ? node.parent : '');
+    setExpandedEquipmentNodes((prevExpandedNodes) => {
+      if (!prevExpandedNodes.includes(nodeId)) {
+        return [...prevExpandedNodes, nodeId];
+      }
+      return prevExpandedNodes;
+    });
+  };
+
+  const handleModifyEquipment = () => {
+    if (selectedEquipmentNode.id && parentEquipmentNode) {
+      setEquipmentNodes((prevNodes) => {
+        const updatedNodes = prevNodes.map((node) =>
+          node.id === selectedEquipmentNode.id ? { ...node, parent: parentEquipmentNode } : node
+        );
+
+        return updatedNodes;
+      });
+
+      setExpandedEquipmentNodes((prevExpandedNodes) => {
+        const newExpandedNodes = new Set(prevExpandedNodes);
+        newExpandedNodes.add(parentEquipmentNode);
+        newExpandedNodes.add(selectedEquipmentNode.id);
+        return Array.from(newExpandedNodes);
+      });
+
+      setSelectedEquipmentNode({ id: '', description: '' });
+      setParentEquipmentNode('');
+    }
+  };
+
+  const handleAddEquipmentNode = () => {
+    if (newEquipmentNode.id && newEquipmentNode.description && newEquipmentNode.parent) {
+      setEquipmentNodes((prevNodes) => [
+        ...prevNodes,
+        { ...newEquipmentNode, label: `${newEquipmentNode.id} (${newEquipmentNode.description})` },
+      ]);
+      setNewEquipmentNode({ id: '', description: '', parent: '' });
+      setIsModalOpen(false);
+    }
+  };
+
+  const toggleExpandAllEquipment = () => {
+    if (allEquipmentExpanded) {
+      setExpandedEquipmentNodes([]);
+    } else {
+      setExpandedEquipmentNodes(equipmentNodes.map((node) => node.id));
+    }
+    setAllEquipmentExpanded(!allEquipmentExpanded);
   };
 
   const renderTreeNodes = (nodes, parentId = null, level = 0) => {
@@ -238,8 +306,20 @@ export default function NewPage() {
             <TabPanel>
               <Grid>
                 <Column lg={8} md={4} sm={2}>
-                  <TreeView label="設備架構">
-                    {/* Add tree nodes here */}
+                  <Column lg={2} md={1} sm={1}>
+                    <Button
+                      renderIcon={allEquipmentExpanded ? ChevronUp : ChevronDown}
+                      onClick={toggleExpandAllEquipment}
+                      hasIconOnly
+                      iconDescription={allEquipmentExpanded ? '全部收起' : '全部展開'}
+                      kind="ghost"
+                      size="small"
+                    />
+                  </Column>
+                  <Column lg={6} md={3} sm={1}>
+                    <TreeView label="設備架構" active="eq1">
+                      {renderTreeNodes(equipmentNodes)}
+                    </TreeView>
                   </TreeView>
                 </Column>
                 <Column lg={8} md={4} sm={2}>
@@ -247,12 +327,14 @@ export default function NewPage() {
                     <TextInput
                       id="equipment-id"
                       labelText="ID:"
-                      value="456"
+                      value={selectedEquipmentNode.id}
                       readOnly
                     />
                     <TextInput
                       id="equipment-description"
                       labelText="Description:"
+                      value={selectedEquipmentNode.description}
+                      readOnly
                     />
                     <TextInput id="equipment-modifier" labelText="修改人:" />
                     <DatePicker dateFormat="m/d/Y" datePickerType="single">
@@ -261,8 +343,20 @@ export default function NewPage() {
                         labelText="修改日期:"
                       />
                     </DatePicker>
-                    <TextInput id="equipment-parent" labelText="上層設備:" />
-                    <Button>修改</Button>
+                    <Dropdown
+                      id="equipment-parent"
+                      titleText="上層設備:"
+                      label="選擇上層設備"
+                      items={equipmentNodes.map((node) => node.id)}
+                      selectedItem={parentEquipmentNode}
+                      onChange={({ selectedItem }) =>
+                        setParentEquipmentNode(selectedItem)
+                      }
+                    />
+                    <div className="button-group">
+                      <Button onClick={handleModifyEquipment}>修改</Button>
+                      <Button onClick={() => setIsModalOpen(true)}>新增</Button>
+                    </div>
                   </form>
                 </Column>
               </Grid>

@@ -320,7 +320,7 @@ export default function NewPage() {
                     <TreeView label="設備架構" active="eq1">
                       {renderTreeNodes(equipmentNodes)}
                     </TreeView>
-                  </TreeView>
+                  </Column>
                 </Column>
                 <Column lg={8} md={4} sm={2}>
                   <form>

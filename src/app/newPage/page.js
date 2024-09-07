@@ -16,6 +16,8 @@ export default function NewPage() {
     { id: 'F12P2', description: 'F12P2', label: 'F12P2', parent: 'tsmc' },
     { id: 'WE', description: 'WE', label: 'WE', parent: 'F12P2' },
     { id: 'F12P34', description: 'F12P34', label: 'F12P34', parent: 'tsmc' },
+    { id: 'SUBSYSTEM1', description: 'SUBSYSTEM1', label: 'SUBSYSTEM1', parent: 'IE' },
+    { id: 'SUBSYSTEM2', description: 'SUBSYSTEM2', label: 'SUBSYSTEM2', parent: 'IE' },
   ]);
   
 

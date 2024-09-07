@@ -235,7 +235,7 @@ export default function NewPage() {
                 handleSelectNode(node.id, node.description);
               }
             }}
-            isExpanded={expandedNodes.includes(node.id)}
+            isExpanded={isEquipment ? expandedEquipmentNodes.includes(node.id) : expandedNodes.includes(node.id)}
           >
             {renderTreeNodes(nodes, node.id, level + 1)}
           </TreeNode>

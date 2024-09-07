@@ -84,6 +84,7 @@ export default function NewPage() {
     { id: 'eq2', description: '設備2', label: 'eq2 (設備2)', parent: 'eq1' },
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddingLocation, setIsAddingLocation] = useState(false);
   const [allEquipmentExpanded, setAllEquipmentExpanded] = useState(true);
   const [allExpanded, setAllExpanded] = useState(true);
 
@@ -331,7 +332,7 @@ export default function NewPage() {
                     />
                     <div className="button-group">
                       <Button onClick={handleModify}>修改</Button>
-                      <Button onClick={() => setIsModalOpen(true)}>新增</Button>
+                      <Button onClick={() => { setIsAddingLocation(true); setIsModalOpen(true); }}>新增</Button>
                     </div>
                   </form>
                 </Column>
@@ -393,7 +394,7 @@ export default function NewPage() {
                     />
                     <div className="button-group">
                       <Button onClick={handleModifyEquipment}>修改</Button>
-                      <Button onClick={() => setIsModalOpen(true)}>新增</Button>
+                      <Button onClick={() => { setIsAddingLocation(false); setIsModalOpen(true); }}>新增</Button>
                     </div>
                   </form>
                 </Column>
@@ -405,46 +406,87 @@ export default function NewPage() {
 
       <Modal
         open={isModalOpen}
-        modalHeading="新增節點"
+        modalHeading={isAddingLocation ? "新增位置" : "新增設備"}
         primaryButtonText="確認"
         secondaryButtonText="取消"
         onRequestClose={() => setIsModalOpen(false)}
-        onRequestSubmit={handleAddEquipmentNode}
+        onRequestSubmit={isAddingLocation ? handleAddNode : handleAddEquipmentNode}
       >
-        <TextInput
-          id="modal-new-equipment-node-id"
-          labelText="新設備 ID:"
-          value={newEquipmentNode.id}
-          onChange={(e) => {
-            const newId = e.target.value;
-            setNewEquipmentNode({
-              ...newEquipmentNode,
-              id: newId,
-              description: `Description for ${newId}`,
-            });
-          }}
-        />
-        <TextInput
-          id="modal-new-equipment-node-description"
-          labelText="新設備描述:"
-          value={newEquipmentNode.description}
-          onChange={(e) =>
-            setNewEquipmentNode({
-              ...newEquipmentNode,
-              description: e.target.value,
-            })
-          }
-        />
-        <Dropdown
-          id="modal-new-equipment-node-parent"
-          titleText="上層設備:"
-          label="選擇上層設備"
-          items={equipmentNodes.map((node) => node.id)}
-          selectedItem={newEquipmentNode.parent}
-          onChange={({ selectedItem }) =>
-            setNewEquipmentNode({ ...newEquipmentNode, parent: selectedItem })
-          }
-        />
+        {isAddingLocation ? (
+          <>
+            <TextInput
+              id="modal-new-location-node-id"
+              labelText="新位置 ID:"
+              value={newNode.id}
+              onChange={(e) => {
+                const newId = e.target.value;
+                setNewNode({
+                  ...newNode,
+                  id: newId,
+                  description: `Description for ${newId}`,
+                });
+              }}
+            />
+            <TextInput
+              id="modal-new-location-node-description"
+              labelText="新位置描述:"
+              value={newNode.description}
+              onChange={(e) =>
+                setNewNode({
+                  ...newNode,
+                  description: e.target.value,
+                })
+              }
+            />
+            <Dropdown
+              id="modal-new-location-node-parent"
+              titleText="上層位置:"
+              label="選擇上層位置"
+              items={nodes.map((node) => node.id)}
+              selectedItem={newNode.parent}
+              onChange={({ selectedItem }) =>
+                setNewNode({ ...newNode, parent: selectedItem })
+              }
+            />
+          </>
+        ) : (
+          <>
+            <TextInput
+              id="modal-new-equipment-node-id"
+              labelText="新設備 ID:"
+              value={newEquipmentNode.id}
+              onChange={(e) => {
+                const newId = e.target.value;
+                setNewEquipmentNode({
+                  ...newEquipmentNode,
+                  id: newId,
+                  description: `Description for ${newId}`,
+                });
+              }}
+            />
+            <TextInput
+              id="modal-new-equipment-node-description"
+              labelText="新設備描述:"
+              value={newEquipmentNode.description}
+              onChange={(e) =>
+                setNewEquipmentNode({
+                  ...newEquipmentNode,
+                  description: e.target.value,
+                })
+              }
+            />
+            <Dropdown
+              id="modal-new-equipment-node-parent"
+              titleText="上層設備:"
+              label="選擇上層設備"
+              items={equipmentNodes.map((node) => node.id)}
+              selectedItem={newEquipmentNode.parent}
+              onChange={({ selectedItem }) =>
+                setNewEquipmentNode({ ...newEquipmentNode, parent: selectedItem })
+              }
+            />
+          </>
+        )}
       </Modal>
     </Grid>
   );

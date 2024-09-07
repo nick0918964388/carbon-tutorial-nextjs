@@ -443,34 +443,20 @@ export default function NewPage() {
                 })
               }
             />
-            <ListBox
+            <Dropdown
               id="modal-new-location-node-parent"
-              aria-label="上層位置"
+              titleText="上層位置:"
+              label="選擇上層位置"
+              items={nodes
+                .filter((node) =>
+                  node.id.toLowerCase().includes(searchKeyword.toLowerCase())
+                )
+                .map((node) => node.id)}
+              selectedItem={newNode.parent}
               onChange={({ selectedItem }) =>
                 setNewNode({ ...newNode, parent: selectedItem })
               }
-            >
-              <ListBoxField>
-                <TextInput
-                  id="modal-new-location-node-search"
-                  labelText=""
-                  placeholder="搜尋位置"
-                  value={searchKeyword}
-                  onChange={(e) => setSearchKeyword(e.target.value)}
-                />
-              </ListBoxField>
-              <ListBoxMenu>
-                {nodes
-                  .filter((node) =>
-                    node.id.toLowerCase().includes(searchKeyword.toLowerCase())
-                  )
-                  .map((node) => (
-                    <ListBoxMenuItem key={node.id} value={node.id}>
-                      {node.id}
-                    </ListBoxMenuItem>
-                  ))}
-              </ListBoxMenu>
-            </ListBox>
+            />
           </>
         ) : (
           <>

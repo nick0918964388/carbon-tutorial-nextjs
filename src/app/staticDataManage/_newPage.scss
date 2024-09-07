@@ -1,0 +1,58 @@
+@use '@carbon/react/scss/spacing' as *;
+@use '@carbon/react/scss/type' as *;
+@use '@carbon/react/scss/breakpoint' as *;
+@use '@carbon/react/scss/theme' as *;
+
+html {
+  background-color: $layer-01;
+}
+
+.new-page {
+  &__content {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .new-page__heading {
+    @include type-style('productive-heading-05');
+    padding-bottom: $spacing-06;
+    padding-top: $spacing-06;
+    padding-left: $spacing-06;
+  }
+
+  .tabs-group {
+    background-color: $layer-01;
+    padding: 0 $spacing-03;
+  }
+
+  .tabs-group-content {
+    padding: $spacing-10 0 $spacing-10 $spacing-06;
+  }
+
+  .new-page__subheading {
+    @include type-style('productive-heading-03');
+    font-weight: 600;
+  }
+
+  .new-page__p {
+    @include type-style('productive-heading-03');
+    margin-top: $spacing-06;
+    margin-bottom: $spacing-08;
+
+    @include breakpoint-between((320px + 1), md) {
+      max-width: 75%;
+    }
+  }
+
+  .new-page__banner {
+    padding-top: $spacing-05;
+    padding-bottom: $spacing-07;
+    padding-left: $spacing-06;
+  }
+
+  .button-group {
+    display: flex;
+    gap: $spacing-03;
+    margin-top: $spacing-05;
+  }
+}

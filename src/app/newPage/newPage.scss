@@ -3,10 +3,18 @@
 @use '@carbon/react/scss/breakpoint' as *;
 @use '@carbon/react/scss/theme' as *;
 
+html {
+  background-color: $layer-01;
+}
+
 .new-page {
   &__content {
     text-align: center;
     margin-top: 20px;
+  }
+
+  .landing-page__heading {
+    @include type-style('productive-heading-05');
   }
 
   .tabs-group {
@@ -35,5 +43,17 @@
     @include breakpoint-between((320px + 1), md) {
       max-width: 75%;
     }
+  }
+
+  .landing-page__banner {
+    padding-top: $spacing-05;
+    padding-bottom: $spacing-07 * 4;
+    padding-left: $spacing-06;
+  }
+
+  .button-group {
+    display: flex;
+    gap: $spacing-03;
+    margin-top: $spacing-05;
   }
 }

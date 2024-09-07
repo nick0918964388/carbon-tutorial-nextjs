@@ -18,6 +18,8 @@
   "dependencies": {
     "@carbon/icons-react": "^11.48.0",
     "@carbon/react": "1.33.0",
+    "@octokit/core": "4.2.0",
+    "dotenv": "^16.4.5",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "next": "13.4.9",

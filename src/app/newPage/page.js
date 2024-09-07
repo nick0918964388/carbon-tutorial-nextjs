@@ -52,17 +52,17 @@ export default function NewPage() {
           node.id === selectedNode.id ? { ...node, parent: parentNode } : node
         );
 
-        const buildTree = (nodes, parentId = null) => {
-          return nodes
-            .filter(node => node.parent === parentId)
-            .map(node => ({
-              ...node,
-              children: buildTree(nodes, node.id)
-            }));
-        };
-
-        return buildTree(updatedNodes);
+        return updatedNodes;
       });
+
+      // Rebuild the tree structure and expand the necessary nodes
+      setExpandedNodes((prevExpandedNodes) => {
+        const newExpandedNodes = new Set(prevExpandedNodes);
+        newExpandedNodes.add(parentNode);
+        newExpandedNodes.add(selectedNode.id);
+        return Array.from(newExpandedNodes);
+      });
+      
 
       setSelectedNode({ id: '', description: '' });
       setParentNode('');

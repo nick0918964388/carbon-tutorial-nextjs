@@ -214,7 +214,7 @@ export default function NewPage() {
     setAllEquipmentExpanded(!allEquipmentExpanded);
   };
 
-  const renderTreeNodes = (nodes, parentId = null, level = 0) => {
+  const renderTreeNodes = (nodes, parentId = null, level = 0, isEquipment = false) => {
     return nodes
       .filter((node) => node.parent === parentId)
       .map((node) => {
@@ -228,7 +228,13 @@ export default function NewPage() {
                 {node.label} <Tag type={tagProps.type}>{tagProps.label}</Tag>
               </div>
             }
-            onClick={() => handleSelectNode(node.id, node.description)}
+            onClick={() => {
+              if (isEquipment) {
+                handleSelectEquipmentNode(node.id);
+              } else {
+                handleSelectNode(node.id, node.description);
+              }
+            }}
             isExpanded={expandedNodes.includes(node.id)}
           >
             {renderTreeNodes(nodes, node.id, level + 1)}
@@ -262,7 +268,7 @@ export default function NewPage() {
                   </Column>
                   <Column lg={6} md={3} sm={1}>
                     <TreeView label="位置架構" active="tsmc">
-                      {renderTreeNodes(nodes)}
+                      {renderTreeNodes(nodes, null, 0, false)}
                     </TreeView>
                   </Column>
                 </Column>
@@ -320,7 +326,7 @@ export default function NewPage() {
                   </Column>
                   <Column lg={6} md={3} sm={1}>
                     <TreeView label="設備架構" active="eq1">
-                      {renderTreeNodes(equipmentNodes)}
+                      {renderTreeNodes(equipmentNodes, null, 0, true)}
                     </TreeView>
                   </Column>
                 </Column>

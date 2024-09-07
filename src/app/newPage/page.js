@@ -5,19 +5,19 @@ import { Button, Grid, Column, Tabs, Tab, TabList, TabPanels, TabPanel, TreeView
 import { useState } from 'react';
 import './newPage.scss';
 
-
 export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
-  const [nodes, setNodes] = useState([
+  
+  const nodes = [
     { id: 'tsmc', description: '台積電', label: 'tsmc (台積電)', parent: null },
     { id: 'F12P1', description: 'F12P1', label: 'F12P1', parent: 'tsmc' },
     { id: 'IE', description: 'IE', label: 'IE', parent: 'F12P1' },
     { id: 'F12P2', description: 'F12P2', label: 'F12P2', parent: 'tsmc' },
     { id: 'WE', description: 'WE', label: 'WE', parent: 'F12P2' },
     { id: 'F12P34', description: 'F12P34', label: 'F12P34', parent: 'tsmc' },
-  ]);
+  ];
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     const node = nodes.find(n => n.id === nodeId);
@@ -48,12 +48,10 @@ export default function NewPage() {
   const handleModify = () => {
     if (selectedNode.id && parentNode) {
       setNodes((prevNodes) => {
-        // Update the parent of the selected node
         const updatedNodes = prevNodes.map(node => 
           node.id === selectedNode.id ? { ...node, parent: parentNode } : node
         );
 
-        // Rebuild the tree structure based on updated parent relationships
         const buildTree = (nodes, parentId = null) => {
           return nodes
             .filter(node => node.parent === parentId)
@@ -66,11 +64,27 @@ export default function NewPage() {
         return buildTree(updatedNodes);
       });
 
-      // Reset the selected node and parent node after modification
       setSelectedNode({ id: '', description: '' });
       setParentNode('');
     }
   };
+
+  const renderTreeNodes = (nodes, parentId = null) => {
+    return nodes
+      .filter(node => node.parent === parentId)
+      .map(node => (
+        <TreeNode
+          key={node.id}
+          id={node.id}
+          label={node.label}
+          onClick={() => handleSelectNode(node.id, node.description)}
+          isExpanded={expandedNodes.includes(node.id)}
+        >
+          {renderTreeNodes(nodes, node.id)}
+        </TreeNode>
+      ));
+  };
+
   return (
     <Grid className="new-page">
       <Column lg={16} md={8} sm={4} className="landing-page__banner">
@@ -85,58 +99,11 @@ export default function NewPage() {
               <Grid>
                 <Column lg={8} md={4} sm={2}>
                   <TreeView label="位置架構" active="tsmc">
-                    <TreeNode
-                      id="tsmc"
-                      label="tsmc (台積電)"
-                      onClick={() => handleSelectNode('tsmc', '台積電')}
-                      isExpanded={expandedNodes.includes('tsmc')}
-                    >
-                      <TreeNode
-                        id="F12P1"
-                        label="F12P1"
-                        onClick={() => handleSelectNode('F12P1', 'F12P1')}
-                        isExpanded={expandedNodes.includes('F12P1')}
-                      >
-                        <TreeNode
-                          id="IE"
-                          label="IE"
-                          onClick={() => handleSelectNode('IE', 'IE')}
-                          isExpanded={expandedNodes.includes('IE')}
-                        />
-                      </TreeNode>
-                      <TreeNode
-                        id="F12P2"
-                        label="F12P2"
-                        onClick={() => handleSelectNode('F12P2', 'F12P2')}
-                        isExpanded={expandedNodes.includes('F12P2')}
-                      >
-                        <TreeNode
-                          id="WE"
-                          label="WE"
-                          onClick={() => handleSelectNode('WE', 'WE')}
-                          isExpanded={expandedNodes.includes('WE')}
-                        />
-                      </TreeNode>
-                      <TreeNode
-                        id="F12P34"
-                        label="F12P34"
-                        onClick={() => handleSelectNode('F12P34', 'F12P34')}
-                        isExpanded={expandedNodes.includes('F12P34')}
-                      />
-                    </TreeNode>
+                    {renderTreeNodes(nodes)}
                   </TreeView>
                 </Column>
                 <Column lg={8} md={4} sm={2}>
                   <form>
-                    <Dropdown
-                      id="location-parent"
-                      titleText="上層位置:"
-                      label="選擇上層位置"
-                      items={getParentOptions(selectedNode.id)}
-                      selectedItem={parentNode}
-                      onChange={({ selectedItem }) => setParentNode(selectedItem)}
-                    />
-                    <Button onClick={handleModify}>修改</Button>
                     <TextInput
                       id="location-id"
                       labelText="ID:"
@@ -159,6 +126,15 @@ export default function NewPage() {
                         labelText="修改日期:"
                       />
                     </DatePicker>
+                    <Dropdown
+                      id="location-parent"
+                      titleText="上層位置:"
+                      label="選擇上層位置"
+                      items={getParentOptions(selectedNode.id)}
+                      selectedItem={parentNode}
+                      onChange={({ selectedItem }) => setParentNode(selectedItem)}
+                    />
+                    <Button onClick={handleModify}>修改</Button>
                   </form>
                 </Column>
               </Grid>

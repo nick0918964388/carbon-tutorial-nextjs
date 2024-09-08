@@ -53,24 +53,14 @@ export default function NewPage() {
     parent: '',
   });
   const [nodes, setNodes] = useState([
-    { id: 'tsmc', description: '台積電', label: 'tsmc (台積電)', parent: null },
-    { id: 'F12P1', description: 'F12P1', label: 'F12P1', parent: 'tsmc' },
-    { id: 'IE', description: 'IE', label: 'IE', parent: 'F12P1' },
-    { id: 'F12P2', description: 'F12P2', label: 'F12P2', parent: 'tsmc' },
-    { id: 'WE', description: 'WE', label: 'WE', parent: 'F12P2' },
-    { id: 'F12P34', description: 'F12P34', label: 'F12P34', parent: 'tsmc' },
-    {
-      id: 'SUBSYSTEM1',
-      description: 'SUBSYSTEM1',
-      label: 'SUBSYSTEM1',
-      parent: 'IE',
-    },
-    {
-      id: 'SUBSYSTEM2',
-      description: 'SUBSYSTEM2',
-      label: 'SUBSYSTEM2',
-      parent: 'IE',
-    },
+    { id: '1', description: '台積電', label: 'tsmc (台積電)', parent: null },
+    { id: '2', description: 'F12P1', label: 'F12P1', parent: '1' },
+    { id: '3', description: 'IE', label: 'IE', parent: '2' },
+    { id: '4', description: 'F12P2', label: 'F12P2', parent: '1' },
+    { id: '5', description: 'WE', label: 'WE', parent: '4' },
+    { id: '6', description: 'F12P34', label: 'F12P34', parent: '1' },
+    { id: '7', description: 'SUBSYSTEM1', label: 'SUBSYSTEM1', parent: '3' },
+    { id: '8', description: 'SUBSYSTEM2', label: 'SUBSYSTEM2', parent: '3' },
   ]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedEquipmentNode, setSelectedEquipmentNode] = useState({
@@ -151,9 +141,10 @@ export default function NewPage() {
 
   const handleAddNode = () => {
     if (newNode.id && newNode.description && newNode.parent) {
+      const newId = (nodes.length + 1).toString(); // Generate a new unique ID
       setNodes((prevNodes) => [
         ...prevNodes,
-        { ...newNode, label: `${newNode.id} (${newNode.description})` },
+        { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
       ]);
       setNewNode({ id: '', description: '', parent: '' });
       setIsModalOpen(false);

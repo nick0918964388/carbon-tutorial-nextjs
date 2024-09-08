@@ -145,10 +145,14 @@ export default function NewPage() {
   const handleAddNode = () => {
     if (newNode.id && newNode.description && newNode.parent) {
       const newId = (nodes.length + 1).toString(); // Generate a new unique ID
-      setNodes((prevNodes) => [
-        ...prevNodes,
-        { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
-      ]);
+      setNodes((prevNodes) => {
+        const updatedNodes = [
+          ...prevNodes,
+          { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
+        ];
+        setExpandedNodes((prevExpandedNodes) => [...prevExpandedNodes, newId]);
+        return updatedNodes;
+      });
       setNewNode({ id: '', description: '', parent: '' });
       setIsModalOpen(false);
     }

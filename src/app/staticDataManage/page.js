@@ -325,7 +325,11 @@ export default function NewPage() {
                       titleText="上層位置:"
                       label="選擇上層位置"
                       items={getParentOptions(selectedNode.id)}
-                      selectedItem={parentNode}
+                      selectedItem={
+                        parentNode
+                          ? nodes.find((node) => node.id === parentNode)?.label
+                          : ''
+                      }
                       onChange={({ selectedItem }) => {
                         const selectedNode = nodes.find(
                           (node) => node.label === selectedItem.split(' / ').pop()

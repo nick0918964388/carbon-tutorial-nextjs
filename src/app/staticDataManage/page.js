@@ -109,7 +109,7 @@ export default function NewPage() {
       return [
         currentLabel,
         ...children.flatMap((child) =>
-          buildHierarchy(child, nodes, `${currentLabel} --> `)
+          buildHierarchy(child, nodes, `${currentLabel} / `)
         ),
       ];
     };

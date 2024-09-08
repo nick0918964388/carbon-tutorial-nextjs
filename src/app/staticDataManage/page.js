@@ -24,6 +24,7 @@ import {
   Tag,
 } from '@carbon/react';
 import { ChevronDown, ChevronUp } from '@carbon/icons-react';
+import TreeFormModal from './TreeFormModal';
 import './_newPage.scss';
 
 const getTagProps = (level) => {
@@ -119,7 +120,7 @@ export default function NewPage() {
       .flatMap((rootNode) => buildHierarchy(rootNode, nodes));
   };
 
-  const handleModify = () => {
+  const handleModifyNode = (selectedNode, parentNode) => {
     if (selectedNode.id) {
       setNodes((prevNodes) => {
         const updatedNodes = prevNodes.map((node) =>
@@ -129,22 +130,18 @@ export default function NewPage() {
         return updatedNodes;
       });
 
-      // Rebuild the tree structure and expand the necessary nodes
       setExpandedNodes((prevExpandedNodes) => {
         const newExpandedNodes = new Set(prevExpandedNodes);
         newExpandedNodes.add(parentNode);
         newExpandedNodes.add(selectedNode.id);
         return Array.from(newExpandedNodes);
       });
-
-      setSelectedNode({ id: '', description: '' });
-      setParentNode('');
     }
   };
 
-  const handleAddNode = () => {
+  const handleAddNode = (newNode, setNewNode, setIsModalOpen) => {
     if (newNode.id && newNode.description && newNode.parent) {
-      const newId = (nodes.length + 1).toString(); // Generate a new unique ID
+      const newId = (nodes.length + 1).toString();
       setNodes((prevNodes) => {
         const updatedNodes = [
           ...prevNodes,
@@ -158,37 +155,11 @@ export default function NewPage() {
     }
   };
 
-  const toggleExpandAll = () => {
-    if (allExpanded) {
-      setExpandedNodes([]);
-    } else {
-      setExpandedNodes(nodes.map((node) => node.id));
-    }
-    setAllExpanded(!allExpanded);
-  };
-
-  const handleSelectEquipmentNode = (nodeId) => {
-    const node = equipmentNodes.find((n) => n.id === nodeId);
-    console.log(node);
-    if (node) {
-      setSelectedEquipmentNode({ id: node.id, description: node.description });
-      setParentEquipmentNode(node.parent);
-      setExpandedEquipmentNodes((prevExpandedNodes) => {
-        if (!prevExpandedNodes.includes(nodeId)) {
-          return [...prevExpandedNodes, nodeId];
-        }
-        return prevExpandedNodes;
-      });
-    }
-  };
-
-  const handleModifyEquipment = () => {
-    if (selectedEquipmentNode.id && parentEquipmentNode) {
+  const handleModifyEquipmentNode = (selectedNode, parentNode) => {
+    if (selectedNode.id) {
       setEquipmentNodes((prevNodes) => {
         const updatedNodes = prevNodes.map((node) =>
-          node.id === selectedEquipmentNode.id
-            ? { ...node, parent: parentEquipmentNode }
-            : node
+          node.id === selectedNode.id ? { ...node, parent: parentNode } : node
         );
 
         return updatedNodes;
@@ -196,80 +167,27 @@ export default function NewPage() {
 
       setExpandedEquipmentNodes((prevExpandedNodes) => {
         const newExpandedNodes = new Set(prevExpandedNodes);
-        newExpandedNodes.add(parentEquipmentNode);
-        newExpandedNodes.add(selectedEquipmentNode.id);
+        newExpandedNodes.add(parentNode);
+        newExpandedNodes.add(selectedNode.id);
         return Array.from(newExpandedNodes);
       });
-
-      setSelectedEquipmentNode({ id: '', description: '' });
-      setParentEquipmentNode('');
     }
   };
 
-  const handleAddEquipmentNode = () => {
-    if (
-      newEquipmentNode.id &&
-      newEquipmentNode.description &&
-      newEquipmentNode.parent
-    ) {
-      setEquipmentNodes((prevNodes) => [
-        ...prevNodes,
-        {
-          ...newEquipmentNode,
-          label: `${newEquipmentNode.id} (${newEquipmentNode.description})`,
-        },
-      ]);
-      setNewEquipmentNode({ id: '', description: '', parent: '' });
+  const handleAddEquipmentNode = (newNode, setNewNode, setIsModalOpen) => {
+    if (newNode.id && newNode.description && newNode.parent) {
+      const newId = (equipmentNodes.length + 1).toString();
+      setEquipmentNodes((prevNodes) => {
+        const updatedNodes = [
+          ...prevNodes,
+          { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
+        ];
+        setExpandedEquipmentNodes((prevExpandedNodes) => [...prevExpandedNodes, newId]);
+        return updatedNodes;
+      });
+      setNewNode({ id: '', description: '', parent: '' });
       setIsModalOpen(false);
     }
-  };
-
-  const toggleExpandAllEquipment = () => {
-    if (allEquipmentExpanded) {
-      setExpandedEquipmentNodes([]);
-    } else {
-      setExpandedEquipmentNodes(equipmentNodes.map((node) => node.id));
-    }
-    setAllEquipmentExpanded(!allEquipmentExpanded);
-  };
-
-  const renderTreeNodes = (
-    nodes,
-    parentId = null,
-    level = 0,
-    isEquipment = false
-  ) => {
-    return nodes
-      .filter((node) => node.parent === parentId)
-      .map((node) => {
-        const tagProps = getTagProps(level);
-        return (
-          <TreeNode
-            key={node.id}
-            id={node.id}
-            label={
-              <div>
-                {node.label} <Tag type={tagProps.type}>{tagProps.label}</Tag>
-              </div>
-            }
-            onClick={() => {
-              if (isEquipment) {
-                console.log(node.id);
-                handleSelectEquipmentNode(node.id);
-              } else {
-                handleSelectNode(node.id, node.description);
-              }
-            }}
-            isExpanded={
-              isEquipment
-                ? expandedEquipmentNodes.includes(node.id)
-                : expandedNodes.includes(node.id)
-            }
-          >
-            {renderTreeNodes(nodes, node.id, level + 1, isEquipment)}
-          </TreeNode>
-        );
-      });
   };
 
   return (
@@ -286,130 +204,30 @@ export default function NewPage() {
             <TabPanel>
               <Grid>
                 <Column lg={4} md={3} sm={2}>
-                  <Column lg={2} md={1} sm={1}>
-                    <Button
-                      renderIcon={allExpanded ? ChevronUp : ChevronDown}
-                      onClick={toggleExpandAll}
-                      hasIconOnly
-                      iconDescription={allExpanded ? '全部收起' : '全部展開'}
-                      kind="ghost"
-                      size="small"
-                    />
-                  </Column>
-                  <Column lg={6} md={3} sm={1}>
-                    <TreeView label="位置架構" active="tsmc">
-                      {renderTreeNodes(nodes, null, 0, false)}
-                    </TreeView>
-                  </Column>
-                </Column>
-                <Column lg={4} md={5} sm={2}>
-                  
-                  <form>
-                    {/* ID field is hidden */}
-                    <header className="location-content-header">位置內容</header>
-                    <TextInput
-                      id="location-label"
-                      labelText="位置:"
-                      value={selectedNode.label}
-                      readOnly
-                    />
-                    <TextInput
-                      id="location-description"
-                      labelText="描述:"
-                      value={selectedNode.description}
-                      readOnly
-                    />
-                    <TextInput id="location-modifier" labelText="修改人:" />
-                    <DatePicker dateFormat="m/d/Y" datePickerType="single">
-                      <DatePickerInput
-                        id="location-date"
-                        labelText="修改日期:"
-                      />
-                    </DatePicker>
-                    <Dropdown
-                      id="location-parent"
-                      titleText="上層位置:"
-                      label="選擇上層位置"
-                      items={getParentOptions(selectedNode.id)}
-                      selectedItem={
-                        parentNode
-                          ? nodes.find((node) => node.id === parentNode)?.label
-                          : ''
-                      }
-                      onChange={({ selectedItem }) => {
-                        const selectedNode = nodes.find(
-                          (node) => node.label === selectedItem.split(' / ').pop()
-                        );
-                        setParentNode(selectedNode ? selectedNode.id : '');
-                      }}
-                    />
-                    <div className="button-group">
-                      <Button onClick={handleModify}>修改</Button>
-                      <Button onClick={() => { setIsAddingLocation(true); setIsModalOpen(true); }}>新增</Button>
-                    </div>
-                  </form>
+                  <TreeFormModal
+                    nodes={nodes}
+                    setNodes={setNodes}
+                    isEquipment={false}
+                    modalHeading="新增位置"
+                    getParentOptions={getParentOptions}
+                    handleAddNode={handleAddNode}
+                    handleModifyNode={handleModifyNode}
+                  />
                 </Column>
               </Grid>
             </TabPanel>
             <TabPanel>
               <Grid>
                 <Column lg={4} md={4} sm={2}>
-                  <Column lg={2} md={1} sm={1}>
-                    <Button
-                      renderIcon={
-                        allEquipmentExpanded ? ChevronUp : ChevronDown
-                      }
-                      onClick={toggleExpandAllEquipment}
-                      hasIconOnly
-                      iconDescription={
-                        allEquipmentExpanded ? '全部收起' : '全部展開'
-                      }
-                      kind="ghost"
-                      size="small"
-                    />
-                  </Column>
-                  <Column lg={6} md={3} sm={1}>
-                    <TreeView label="設備架構" active="eq1">
-                      {renderTreeNodes(equipmentNodes, null, 0, true)}
-                    </TreeView>
-                  </Column>
-                </Column>
-                <Column lg={4} md={4} sm={2}>
-                  <form>
-                    <TextInput
-                      id="equipment-id"
-                      labelText="ID:"
-                      value={selectedEquipmentNode.id}
-                      readOnly
-                    />
-                    <TextInput
-                      id="equipment-description"
-                      labelText="Description:"
-                      value={selectedEquipmentNode.description}
-                      readOnly
-                    />
-                    <TextInput id="equipment-modifier" labelText="修改人:" />
-                    <DatePicker dateFormat="m/d/Y" datePickerType="single">
-                      <DatePickerInput
-                        id="equipment-date"
-                        labelText="修改日期:"
-                      />
-                    </DatePicker>
-                    <Dropdown
-                      id="equipment-parent"
-                      titleText="上層設備:"
-                      label="選擇上層設備"
-                      items={equipmentNodes.map((node) => node.id)}
-                      selectedItem={parentEquipmentNode}
-                      onChange={({ selectedItem }) =>
-                        setParentEquipmentNode(selectedItem)
-                      }
-                    />
-                    <div className="button-group">
-                      <Button onClick={handleModifyEquipment}>修改</Button>
-                      <Button onClick={() => { setIsAddingLocation(false); setIsModalOpen(true); }}>新增</Button>
-                    </div>
-                  </form>
+                  <TreeFormModal
+                    nodes={equipmentNodes}
+                    setNodes={setEquipmentNodes}
+                    isEquipment={true}
+                    modalHeading="新增設備"
+                    getParentOptions={() => equipmentNodes.map((node) => node.id)}
+                    handleAddNode={handleAddEquipmentNode}
+                    handleModifyNode={handleModifyEquipmentNode}
+                  />
                 </Column>
               </Grid>
             </TabPanel>

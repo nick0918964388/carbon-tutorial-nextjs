@@ -44,7 +44,7 @@ const getTagProps = (level) => {
 };
 
 export default function NewPage() {
-  const [selectedNode, setSelectedNode] = useState({ id: '', description: '' });
+  const [selectedNode, setSelectedNode] = useState({ id: '', description: '', label: '' });
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
   const [newNode, setNewNode] = useState({
@@ -92,7 +92,7 @@ export default function NewPage() {
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     const node = nodes.find((n) => n.id === nodeId);
-    setSelectedNode({ id: nodeId, description: nodeDescription });
+    setSelectedNode({ id: nodeId, description: nodeDescription, label: node.label });
     setParentNode(node ? node.parent : '');
     setExpandedNodes((prevExpandedNodes) => {
       if (!prevExpandedNodes.includes(nodeId)) {
@@ -328,7 +328,7 @@ export default function NewPage() {
                       selectedItem={parentNode}
                       onChange={({ selectedItem }) => {
                         const selectedNode = nodes.find(
-                          (node) => node.label === selectedItem.split(' --> ').pop()
+                          (node) => node.label === selectedItem.split(' / ').pop()
                         );
                         setParentNode(selectedNode ? selectedNode.id : '');
                       }}

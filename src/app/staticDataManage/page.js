@@ -120,7 +120,7 @@ export default function NewPage() {
   };
 
   const handleModify = () => {
-    if (selectedNode.id && parentNode) {
+    if (selectedNode.id) {
       setNodes((prevNodes) => {
         const updatedNodes = prevNodes.map((node) =>
           node.id === selectedNode.id ? { ...node, parent: parentNode } : node

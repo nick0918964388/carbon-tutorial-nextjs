@@ -29,6 +29,14 @@ html {
     padding: 0 $spacing-03;
   }
 
+  form,
+  .bx--tree-view {
+    background-color: white;
+    padding: $spacing-05;
+    border-radius: $spacing-02;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
   .tabs-group-content {
     padding: $spacing-10 0 $spacing-10 $spacing-06;
   }

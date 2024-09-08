@@ -299,17 +299,19 @@ export default function NewPage() {
                   </Column>
                 </Column>
                 <Column lg={4} md={5} sm={2}>
+                  
                   <form>
                     {/* ID field is hidden */}
+                    <header className="location-content-header">位置內容</header>
                     <TextInput
                       id="location-label"
-                      labelText="Label:"
+                      labelText="位置:"
                       value={selectedNode.label}
                       readOnly
                     />
                     <TextInput
                       id="location-description"
-                      labelText="Description:"
+                      labelText="描述:"
                       value={selectedNode.description}
                       readOnly
                     />
@@ -449,14 +451,10 @@ export default function NewPage() {
               id="modal-new-location-node-parent"
               titleText="上層位置:"
               label="選擇上層位置"
-              items={nodes
-                .filter((node) =>
-                  node.id.toLowerCase().includes(searchKeyword.toLowerCase())
-                )
-                .map((node) => node.id)}
+              items={getParentOptions()}
               selectedItem={newNode.parent}
               onChange={({ selectedItem }) =>
-                setNewNode({ ...newNode, parent: selectedItem })
+                setNewNode({ ...newNode, parent: selectedItem.split(' / ').pop() })
               }
             />
           </>

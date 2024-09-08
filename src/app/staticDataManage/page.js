@@ -103,17 +103,20 @@ export default function NewPage() {
   };
 
   const getParentOptions = (nodeId) => {
-    switch (nodeId) {
-      case 'IE':
-      case 'WE':
-        return ['F12P1', 'F12P2', 'tsmc'];
-      case 'F12P1':
-      case 'F12P2':
-      case 'F12P34':
-        return ['tsmc'];
-      default:
-        return [];
-    }
+    const buildHierarchy = (node, nodes, prefix = '') => {
+      const children = nodes.filter((n) => n.parent === node.id);
+      const currentLabel = `${prefix}${node.label}`;
+      return [
+        currentLabel,
+        ...children.flatMap((child) =>
+          buildHierarchy(child, nodes, `${currentLabel} --> `)
+        ),
+      ];
+    };
+
+    return nodes
+      .filter((node) => node.parent === null)
+      .flatMap((rootNode) => buildHierarchy(rootNode, nodes));
   };
 
   const handleModify = () => {
@@ -297,10 +300,11 @@ export default function NewPage() {
                 </Column>
                 <Column lg={4} md={5} sm={2}>
                   <form>
+                    {/* ID field is hidden */}
                     <TextInput
-                      id="location-id"
-                      labelText="ID:"
-                      value={selectedNode.id}
+                      id="location-label"
+                      labelText="Label:"
+                      value={selectedNode.label}
                       readOnly
                     />
                     <TextInput
@@ -322,9 +326,12 @@ export default function NewPage() {
                       label="選擇上層位置"
                       items={getParentOptions(selectedNode.id)}
                       selectedItem={parentNode}
-                      onChange={({ selectedItem }) =>
-                        setParentNode(selectedItem)
-                      }
+                      onChange={({ selectedItem }) => {
+                        const selectedNode = nodes.find(
+                          (node) => node.label === selectedItem.split(' --> ').pop()
+                        );
+                        setParentNode(selectedNode ? selectedNode.id : '');
+                      }}
                     />
                     <div className="button-group">
                       <Button onClick={handleModify}>修改</Button>

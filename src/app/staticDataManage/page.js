@@ -436,9 +436,19 @@ export default function NewPage() {
                 setNewNode({
                   ...newNode,
                   id: newId,
-                  description: `Description for ${newId}`,
                 });
               }}
+            />
+            <TextInput
+              id="modal-new-location-node-label"
+              labelText="新位置 Label:"
+              value={newNode.label}
+              onChange={(e) =>
+                setNewNode({
+                  ...newNode,
+                  label: e.target.value,
+                })
+              }
             />
             <TextInput
               id="modal-new-location-node-description"
@@ -456,10 +466,17 @@ export default function NewPage() {
               titleText="上層位置:"
               label="選擇上層位置"
               items={getParentOptions()}
-              selectedItem={newNode.parent}
-              onChange={({ selectedItem }) =>
-                setNewNode({ ...newNode, parent: selectedItem.split(' / ').pop() })
+              selectedItem={
+                newNode.parent
+                  ? nodes.find((node) => node.id === newNode.parent)?.label
+                  : ''
               }
+              onChange={({ selectedItem }) => {
+                const selectedNode = nodes.find(
+                  (node) => node.label === selectedItem.split(' / ').pop()
+                );
+                setNewNode({ ...newNode, parent: selectedNode ? selectedNode.id : '' });
+              }}
             />
           </>
         ) : (

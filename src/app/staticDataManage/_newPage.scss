@@ -67,4 +67,10 @@ html {
     gap: $spacing-03;
     margin-top: $spacing-05;
   }
+
+  .location-content-header {
+    @include type-style('productive-heading-03');
+    font-weight: 600;
+    margin-bottom: $spacing-05;
+  }
 }

@@ -45,7 +45,11 @@ const getTagProps = (level) => {
 };
 
 export default function NewPage() {
-  const [selectedNode, setSelectedNode] = useState({ id: '', description: '', label: '' });
+  const [selectedNode, setSelectedNode] = useState({
+    id: '',
+    description: '',
+    label: '',
+  });
   const [expandedNodes, setExpandedNodes] = useState([]);
   const [parentNode, setParentNode] = useState('');
   const [newNode, setNewNode] = useState({
@@ -93,7 +97,11 @@ export default function NewPage() {
 
   const handleSelectNode = (nodeId, nodeDescription) => {
     const node = nodes.find((n) => n.id === nodeId);
-    setSelectedNode({ id: nodeId, description: nodeDescription, label: node.label });
+    setSelectedNode({
+      id: nodeId,
+      description: nodeDescription,
+      label: node.label,
+    });
     setParentNode(node ? node.parent : '');
     setExpandedNodes((prevExpandedNodes) => {
       if (!prevExpandedNodes.includes(nodeId)) {
@@ -145,7 +153,11 @@ export default function NewPage() {
       setNodes((prevNodes) => {
         const updatedNodes = [
           ...prevNodes,
-          { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
+          {
+            ...newNode,
+            id: newId,
+            label: `${newNode.id} (${newNode.description})`,
+          },
         ];
         setExpandedNodes((prevExpandedNodes) => [...prevExpandedNodes, newId]);
         return updatedNodes;
@@ -180,9 +192,16 @@ export default function NewPage() {
       setEquipmentNodes((prevNodes) => {
         const updatedNodes = [
           ...prevNodes,
-          { ...newNode, id: newId, label: `${newNode.id} (${newNode.description})` },
+          {
+            ...newNode,
+            id: newId,
+            label: `${newNode.id} (${newNode.description})`,
+          },
         ];
-        setExpandedEquipmentNodes((prevExpandedNodes) => [...prevExpandedNodes, newId]);
+        setExpandedEquipmentNodes((prevExpandedNodes) => [
+          ...prevExpandedNodes,
+          newId,
+        ]);
         return updatedNodes;
       });
       setNewNode({ id: '', description: '', parent: '' });
@@ -203,7 +222,7 @@ export default function NewPage() {
           <TabPanels>
             <TabPanel>
               <Grid>
-                <Column lg={4} md={3} sm={2}>
+                <Column lg={16} md={8} sm={2}>
                   <TreeFormModal
                     nodes={nodes}
                     setNodes={setNodes}
@@ -218,13 +237,15 @@ export default function NewPage() {
             </TabPanel>
             <TabPanel>
               <Grid>
-                <Column lg={4} md={4} sm={2}>
+                <Column lg={16} md={8} sm={2}>
                   <TreeFormModal
                     nodes={equipmentNodes}
                     setNodes={setEquipmentNodes}
                     isEquipment={true}
                     modalHeading="新增設備"
-                    getParentOptions={() => equipmentNodes.map((node) => node.id)}
+                    getParentOptions={() =>
+                      equipmentNodes.map((node) => node.id)
+                    }
                     handleAddNode={handleAddEquipmentNode}
                     handleModifyNode={handleModifyEquipmentNode}
                   />
@@ -237,11 +258,13 @@ export default function NewPage() {
 
       <Modal
         open={isModalOpen}
-        modalHeading={isAddingLocation ? "新增位置" : "新增設備"}
+        modalHeading={isAddingLocation ? '新增位置' : '新增設備'}
         primaryButtonText="確認"
         secondaryButtonText="取消"
         onRequestClose={() => setIsModalOpen(false)}
-        onRequestSubmit={isAddingLocation ? handleAddNode : handleAddEquipmentNode}
+        onRequestSubmit={
+          isAddingLocation ? handleAddNode : handleAddEquipmentNode
+        }
       >
         {isAddingLocation ? (
           <>
@@ -293,7 +316,10 @@ export default function NewPage() {
                 const selectedNode = nodes.find(
                   (node) => node.label === selectedItem.split(' / ').pop()
                 );
-                setNewNode({ ...newNode, parent: selectedNode ? selectedNode.id : '' });
+                setNewNode({
+                  ...newNode,
+                  parent: selectedNode ? selectedNode.id : '',
+                });
               }}
             />
           </>
@@ -330,7 +356,10 @@ export default function NewPage() {
               items={equipmentNodes.map((node) => node.id)}
               selectedItem={newEquipmentNode.parent}
               onChange={({ selectedItem }) =>
-                setNewEquipmentNode({ ...newEquipmentNode, parent: selectedItem })
+                setNewEquipmentNode({
+                  ...newEquipmentNode,
+                  parent: selectedItem,
+                })
               }
             />
           </>

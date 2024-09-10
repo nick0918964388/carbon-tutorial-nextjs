@@ -17,32 +17,48 @@ import {
   DatePickerInput,
   Dropdown,
   Modal,
-  ListBox,
-  ListBoxField,
-  ListBoxMenu,
-  ListBoxMenuItem,
+  StructuredListWrapper,
+  StructuredListHead,
+  StructuredListBody,
+  StructuredListRow,
+  StructuredListInput,
+  StructuredListCell,
   Tag,
 } from '@carbon/react';
 import { ChevronDown, ChevronUp } from '@carbon/icons-react';
 import TreeFormModal from './TreeFormModal';
 import './_newPage.scss';
+import Classification from './Classification';
 
-const getTagProps = (level) => {
-  switch (level) {
-    case 0:
-      return { type: 'blue', label: '組織' };
-    case 1:
-      return { type: 'green', label: '廠區' };
-    case 2:
-      return { type: 'teal', label: '部門' };
-    case 3:
-      return { type: 'purple', label: '系統' };
-    case 4:
-      return { type: 'red', label: '子系統' };
-    default:
-      return { type: 'gray', label: '未知' };
-  }
-};
+const rows = [
+  {
+    id: '1',
+    name: 'Repo 1',
+    createdAt: 'Date',
+    updatedAt: 'Date',
+    issueCount: '123',
+    stars: '456',
+    links: 'Links',
+  },
+  {
+    id: '2',
+    name: 'Repo 2',
+    createdAt: 'Date',
+    updatedAt: 'Date',
+    issueCount: '123',
+    stars: '456',
+    links: 'Links',
+  },
+  {
+    id: '3',
+    name: 'Repo 3',
+    createdAt: 'Date',
+    updatedAt: 'Date',
+    issueCount: '123',
+    stars: '456',
+    links: 'Links',
+  },
+];
 
 export default function NewPage() {
   const [selectedNode, setSelectedNode] = useState({
@@ -87,6 +103,12 @@ export default function NewPage() {
   const [isAddingLocation, setIsAddingLocation] = useState(false);
   const [allEquipmentExpanded, setAllEquipmentExpanded] = useState(true);
   const [allExpanded, setAllExpanded] = useState(true);
+  const [filterKeyword, setFilterKeyword] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('全部');
+  const [items, setItems] = useState([
+    /* 初始項目列表 */
+  ]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     setExpandedNodes(nodes.map((node) => node.id));
@@ -218,6 +240,7 @@ export default function NewPage() {
           <TabList aria-label="管理選項" className="tabs-group">
             <Tab>位置管理</Tab>
             <Tab>設備管理</Tab>
+            <Tab>分類管理</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -249,6 +272,13 @@ export default function NewPage() {
                     handleAddNode={handleAddEquipmentNode}
                     handleModifyNode={handleModifyEquipmentNode}
                   />
+                </Column>
+              </Grid>
+            </TabPanel>
+            <TabPanel>
+              <Grid>
+                <Column lg={16} md={3} sm={2}>
+                  <Classification />
                 </Column>
               </Grid>
             </TabPanel>

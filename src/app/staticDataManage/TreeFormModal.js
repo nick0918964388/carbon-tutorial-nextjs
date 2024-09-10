@@ -125,7 +125,6 @@ const TreeFormModal = ({
           >
             {renderTreeNodes(nodes)}
           </TreeView>
-          123
         </Column>
         <Column lg={8} md={3} sm={2}>
           <form>
@@ -182,7 +181,6 @@ const TreeFormModal = ({
               <Button onClick={() => setIsModalOpen(true)}>新增</Button>
             </div>
           </form>
-          444
         </Column>
       </Grid>
 

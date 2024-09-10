@@ -2,7 +2,7 @@
 
 import RepoTable from './RepoTable';
 import { Link, DataTableSkeleton, Grid, Column } from '@carbon/react';
-import React, { useEffect , useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Octokit } from '@octokit/core';
 import dotenv from 'dotenv';
 
@@ -93,7 +93,6 @@ const getRowItems = (rows) =>
   }));
 
 export default function RepoPage() {
-  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [rows, setRows] = useState([]);
@@ -117,7 +116,7 @@ export default function RepoPage() {
 
     getCarbonRepos();
   }, []);
-  
+
   if (loading) {
     return (
       <Grid className="repo-page">
@@ -131,7 +130,7 @@ export default function RepoPage() {
       </Grid>
     );
   }
-  
+
   if (error) {
     return `Error! ${error}`;
   }
@@ -139,7 +138,12 @@ export default function RepoPage() {
   return (
     <Grid className="repo-page">
       <Column lg={16} md={8} sm={4} className="repo-page__r1">
-        <RepoTable headers={headers} rows={rows} />
+        <RepoTable
+          headers={headers}
+          rows={rows}
+          title="Carbon Repositories"
+          description="A collection of public Carbon repositories."
+        />
       </Column>
     </Grid>
   );
